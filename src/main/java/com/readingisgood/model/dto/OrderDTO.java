@@ -1,27 +1,32 @@
 package com.readingisgood.model.dto;
 
 import java.sql.Date;
-import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class OrderDTO {
 
 	private long id;
 	private long customerId;
-	private HashMap<Long, Integer> cart;
+	private Map<Long, Integer> cart;
 	private double totalAmount;
+    @JsonFormat(pattern="yyyy-MM-dd")
 	private Date date;
+	private String status;
 
 	public OrderDTO() {
 		super();
 	}
 
-	public OrderDTO(long id, long customerId, HashMap<Long, Integer> cart, double totalAmount, Date date) {
+	public OrderDTO(long id, long customerId, Map<Long, Integer> cart, double totalAmount, Date date, String status) {
 		super();
 		this.id = id;
 		this.customerId = customerId;
 		this.cart = cart;
 		this.totalAmount = totalAmount;
 		this.date = date;
+		this.status = status;
 	}
 
 	public long getId() {
@@ -40,11 +45,11 @@ public class OrderDTO {
 		this.customerId = customerId;
 	}
 
-	public HashMap<Long, Integer> getCart() {
+	public Map<Long, Integer> getCart() {
 		return cart;
 	}
 
-	public void setCart(HashMap<Long, Integer> cart) {
+	public void setCart(Map<Long, Integer> cart) {
 		this.cart = cart;
 	}
 
@@ -62,6 +67,14 @@ public class OrderDTO {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

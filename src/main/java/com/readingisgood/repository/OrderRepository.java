@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.readingisgood.model.entity.Order;
+import com.readingisgood.util.OrderStatus;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-	List<Order> findByCustomerId(long customerId);
+	List<Order> findByOrderOwnerId(long customerId);
 	
 	List<Order> findByTotalAmount(double totalAmount);
 
@@ -20,5 +21,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findByDate(Date date);
 
 	List<Order> findByDateBetween(Date startDate, Date endDate);
+	
+	List<Order> findByStatus(OrderStatus status);
 	
 }

@@ -1,13 +1,16 @@
 package com.readingisgood.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Customer {
@@ -23,8 +26,8 @@ public class Customer {
 
 	private String address;
 
-	@ManyToMany(mappedBy = "customer")
-	private List<Order> orders;
+	@OneToMany(targetEntity = Order.class, mappedBy = "orderOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Order> orders = new ArrayList<>();
 
 	public Customer() {
 		super();
@@ -76,6 +79,10 @@ public class Customer {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public void addOrder(Order order) {
+		this.orders.add(order);
 	}
 
 	@Override

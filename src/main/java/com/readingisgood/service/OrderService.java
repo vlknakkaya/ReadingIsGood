@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.readingisgood.exception.EntityNotFoundException;
 import com.readingisgood.model.entity.Order;
 import com.readingisgood.repository.OrderRepository;
+import com.readingisgood.util.OrderStatus;
 
 @Service
 public class OrderService {
@@ -26,7 +27,7 @@ public class OrderService {
 	}
 
 	public List<Order> findByCustomerId(long customerId) {
-		return orderRepository.findByCustomerId(customerId);
+		return orderRepository.findByOrderOwnerId(customerId);
 	}
 
 	public List<Order> findByTotalAmount(double totalAmount) {
@@ -43,6 +44,10 @@ public class OrderService {
 
 	public List<Order> findByDateBetween(Date startDate, Date endDate) {
 		return orderRepository.findByDateBetween(startDate, endDate);
+	}
+
+	public List<Order> findByStatus(OrderStatus status) {
+		return orderRepository.findByStatus(status);
 	}
 
 	public List<Order> findAll() {

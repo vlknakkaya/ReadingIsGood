@@ -1,0 +1,87 @@
+package com.readingisgood.controller.rest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.readingisgood.model.converter.BookDTOConverter;
+import com.readingisgood.model.dto.BookDTO;
+import com.readingisgood.model.dto.BookStockDTO;
+import com.readingisgood.model.entity.Book;
+import com.readingisgood.service.BookService;
+
+@RestController
+@RequestMapping("/book")
+public class BookController {
+
+	@Autowired
+	private BookService bookService;
+	@Autowired
+	private BookDTOConverter bookDTOConverter;
+
+	@GetMapping
+	public List<BookDTO> getAllBooks() {
+		return bookDTOConverter.convertToDTOList(bookService.findAll());
+	}
+
+	@GetMapping("/{id}")
+	public BookDTO getBookById(@PathVariable long id) {
+		return bookDTOConverter.convertToDTO(bookService.findById(id));
+	}
+
+	@PutMapping("/{id}")
+	public BookDTO updateBook(@PathVariable long id, @RequestBody BookDTO bookDTO) {
+		Book entity = bookService.findById(id);
+
+		if (StringUtils.hasText(bookDTO.getName())) {
+			entity.setName(bookDTO.getName());
+		}
+
+		if (StringUtils.hasText(String.valueOf(bookDTO.getPrice()))) {
+			entity.setPrice(bookDTO.getPrice());
+		}
+
+		if (StringUtils.hasText(String.valueOf(bookDTO.getStock()))) {
+			entity.setStock(bookDTO.getStock());
+		}
+
+		return bookDTOConverter.convertToDTO(bookService.save(entity));
+	}
+
+	@PostMapping
+	public BookDTO createBook(@RequestBody BookDTO bookDTO) {
+		Book newEntry = bookDTOConverter.convertToEntity(bookDTO);
+
+		return bookDTOConverter.convertToDTO(bookService.save(newEntry));
+	}
+
+	@DeleteMapping("/{id}")
+	public void removeBookById(@PathVariable long id) {
+		bookService.removeById(id);
+	}
+
+	@PutMapping("/updateStock")
+	public List<BookDTO> updateBookStock(@RequestBody List<BookStockDTO> bookStockDTOs) {
+		List<Book> books = new ArrayList<>();
+		Book book;
+
+		for (BookStockDTO bookStockDTO : bookStockDTOs) {
+			book = bookService.findById(bookStockDTO.getBookId());
+			book.addStock(bookStockDTO.getStock());
+			books.add(book);
+		}
+
+		return bookDTOConverter.convertToDTOList(bookService.saveAll(books));
+	}
+
+}

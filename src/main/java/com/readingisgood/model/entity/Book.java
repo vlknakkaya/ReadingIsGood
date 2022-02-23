@@ -62,6 +62,10 @@ public class Book {
 	public void setStock(long stock) {
 		this.stock = stock;
 	}
+	
+	public void addStock(long addedStock) {
+		this.stock += addedStock;
+	}
 
 	@Override
 	public String toString() {

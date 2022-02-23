@@ -1,15 +1,21 @@
 package com.readingisgood.model.entity;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.readingisgood.util.OrderStatus;
 
 @Entity
 public class Order {
@@ -18,26 +24,32 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToMany
-	@JoinTable(name = "customer_orders", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
-	private Customer customer;
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer orderOwner;
 
-	private Map<Book, Integer> cart;
+	@ElementCollection
+	private Map<Book, Integer> cart = new HashMap<>();
 
-	private double totalAmount;
-	
+	private double totalAmount = 0;
+
+    @JsonFormat(pattern="yyyy-MM-dd")
 	private Date date;
+
+	@Enumerated(EnumType.STRING)
+	private OrderStatus status = OrderStatus.PENDING;
 
 	public Order() {
 		super();
 	}
 
-	public Order(Customer customer, Map<Book, Integer> cart, double totalAmount, Date date) {
+	public Order(Customer orderOwner, Map<Book, Integer> cart, Date date, OrderStatus status) {
 		super();
-		this.customer = customer;
+		this.orderOwner = orderOwner;
 		this.cart = cart;
-		this.totalAmount = totalAmount;
 		this.date = date;
+		this.status = status;
+		calculateTotalAmount();
 	}
 
 	public long getId() {
@@ -48,12 +60,12 @@ public class Order {
 		this.id = id;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Customer getOrderOwner() {
+		return orderOwner;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setOrderOwner(Customer orderOwner) {
+		this.orderOwner = orderOwner;
 	}
 
 	public Map<Book, Integer> getCart() {
@@ -62,6 +74,7 @@ public class Order {
 
 	public void setCart(Map<Book, Integer> cart) {
 		this.cart = cart;
+		calculateTotalAmount();
 	}
 
 	public double getTotalAmount() {
@@ -80,10 +93,40 @@ public class Order {
 		this.date = date;
 	}
 
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public void addToCart(Book book, int count) {
+		Integer bookCount = cart.get(book);
+
+		if (bookCount != null) {
+			cart.put(book, bookCount + count);
+		} else {
+			cart.put(book, count);
+		}
+		
+		calculateTotalAmount();
+	}
+	
+	private void calculateTotalAmount() {
+		double totalAmountVal = 0;
+		
+		for (Map.Entry<Book, Integer> entry : this.cart.entrySet()) {
+			totalAmount += entry.getKey().getPrice() * entry.getValue();
+		}
+		
+		this.totalAmount = totalAmountVal;
+	}
+
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer=" + customer + ", cart=" + cart + ", totalAmount=" + totalAmount
-				+ ", date=" + date + "]";
+		return "Order [id=" + id + ", customer=" + orderOwner + ", cart=" + cart + ", totalAmount=" + totalAmount
+				+ ", date=" + date + ", status=" + status.getStatusText() + "]";
 	}
 
 }

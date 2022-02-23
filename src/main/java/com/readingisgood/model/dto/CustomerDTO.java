@@ -1,22 +1,26 @@
 package com.readingisgood.model.dto;
 
+import java.util.List;
+
 public class CustomerDTO {
 
 	private long id;
 	private String email;
 	private String name;
 	private String address;
+	private List<OrderDTO> orders;
 
 	public CustomerDTO() {
 		super();
 	}
-
-	public CustomerDTO(long id, String email, String name, String address) {
+	
+	public CustomerDTO(long id, String email, String name, String address, List<OrderDTO> orders) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.name = name;
 		this.address = address;
+		this.orders = orders;
 	}
 
 	public long getId() {
@@ -49,6 +53,14 @@ public class CustomerDTO {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public List<OrderDTO> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<OrderDTO> orders) {
+		this.orders = orders;
 	}
 
 }

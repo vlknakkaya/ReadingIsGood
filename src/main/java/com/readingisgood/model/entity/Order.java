@@ -26,7 +26,7 @@ public class Order {
 
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
-	private Customer orderOwner;
+	private Customer customer;
 
 	@ElementCollection
 	private Map<Book, Integer> cart = new HashMap<>();
@@ -43,9 +43,9 @@ public class Order {
 		super();
 	}
 
-	public Order(Customer orderOwner, Map<Book, Integer> cart, Date date, OrderStatus status) {
+	public Order(Customer customer, Map<Book, Integer> cart, Date date, OrderStatus status) {
 		super();
-		this.orderOwner = orderOwner;
+		this.customer = customer;
 		this.cart = cart;
 		this.date = date;
 		this.status = status;
@@ -60,12 +60,12 @@ public class Order {
 		this.id = id;
 	}
 
-	public Customer getOrderOwner() {
-		return orderOwner;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setOrderOwner(Customer orderOwner) {
-		this.orderOwner = orderOwner;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Map<Book, Integer> getCart() {
@@ -125,7 +125,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer=" + orderOwner + ", cart=" + cart + ", totalAmount=" + totalAmount
+		return "Order [id=" + id + ", customer=" + customer + ", cart=" + cart + ", totalAmount=" + totalAmount
 				+ ", date=" + date + ", status=" + status.getStatusText() + "]";
 	}
 

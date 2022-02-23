@@ -26,7 +26,7 @@ public class Customer {
 
 	private String address;
 
-	@OneToMany(targetEntity = Order.class, mappedBy = "orderOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Order.class, mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Order> orders = new ArrayList<>();
 
 	public Customer() {

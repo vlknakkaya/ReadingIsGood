@@ -27,7 +27,7 @@ public class OrderService {
 	}
 
 	public List<Order> findByCustomerId(long customerId) {
-		return orderRepository.findByOrderOwnerId(customerId);
+		return orderRepository.findByCustomerId(customerId);
 	}
 
 	public List<Order> findByTotalAmount(double totalAmount) {

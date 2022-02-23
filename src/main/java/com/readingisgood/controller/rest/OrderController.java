@@ -52,7 +52,7 @@ public class OrderController {
 		Order entity = orderService.findById(id);
 
 		if (StringUtils.hasText(String.valueOf(orderDTO.getCustomerId()))) {
-			entity.setOrderOwner(customerService.findById(orderDTO.getCustomerId()));
+			entity.setCustomer(customerService.findById(orderDTO.getCustomerId()));
 		}
 
 		// TODO: cart

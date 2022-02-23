@@ -16,7 +16,7 @@ public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
 		}
 
 		Order entity = new Order();
-		entity.setOrderOwner(null); // TODO
+		entity.setCustomer(null); // TODO
 		entity.setCart(null); // TODO
 		entity.setTotalAmount(dto.getTotalAmount());
 		entity.setDate(dto.getDate());
@@ -32,7 +32,7 @@ public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
 		}
 
 		OrderDTO dto = new OrderDTO();
-		dto.setCustomerId(entity.getOrderOwner().getId());
+		dto.setCustomerId(entity.getCustomer().getId());
 		dto.setCart(null); // TODO
 		dto.setTotalAmount(entity.getTotalAmount());
 		dto.setDate(entity.getDate());

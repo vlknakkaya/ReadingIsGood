@@ -12,7 +12,7 @@ import com.readingisgood.util.OrderStatus;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-	List<Order> findByOrderOwnerId(long customerId);
+	List<Order> findByCustomerId(long customerId);
 	
 	List<Order> findByTotalAmount(double totalAmount);
 

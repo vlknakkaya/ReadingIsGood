@@ -29,16 +29,36 @@ public class BookController {
 	@Autowired
 	private BookDTOConverter bookDTOConverter;
 
+	/**
+	 * Returns all Books
+	 * 
+	 * @return BookDTO list that represents all Books
+	 */
 	@GetMapping
 	public List<BookDTO> getAllBooks() {
 		return bookDTOConverter.convertToDTOList(bookService.findAll());
 	}
 
+	/**
+	 * Returns Book that has given id
+	 * 
+	 * @param id Book id
+	 * @return BookDTO that represents founded Book
+	 * @throws EntityNotFoundException can be thrown if the id is not found
+	 */
 	@GetMapping("/{id}")
 	public BookDTO getBookById(@PathVariable long id) {
 		return bookDTOConverter.convertToDTO(bookService.findById(id));
 	}
 
+	/**
+	 * Updates Book that has given id with given Book properties
+	 * 
+	 * @param id Book id
+	 * @param bookDTO
+	 * @return BookDTO that represents updated Book
+	 * @throws EntityNotFoundException can be thrown if the id is not found
+	 */
 	@PutMapping("/{id}")
 	public BookDTO updateBook(@PathVariable long id, @RequestBody BookDTO bookDTO) {
 		Book entity = bookService.findById(id);
@@ -58,6 +78,12 @@ public class BookController {
 		return bookDTOConverter.convertToDTO(bookService.save(entity));
 	}
 
+	/**
+	 * Creates new Book by given Book properties
+	 * 
+	 * @param bookDTO
+	 * @return BookDTO that represents created Book
+	 */
 	@PostMapping
 	public BookDTO createBook(@RequestBody BookDTO bookDTO) {
 		Book newEntry = bookDTOConverter.convertToEntity(bookDTO);
@@ -65,19 +91,31 @@ public class BookController {
 		return bookDTOConverter.convertToDTO(bookService.save(newEntry));
 	}
 
+	/**
+	 * Removes Book that has given id
+	 * 
+	 * @param id Book id
+	 */
 	@DeleteMapping("/{id}")
 	public void removeBookById(@PathVariable long id) {
 		bookService.removeById(id);
 	}
 
+	/**
+	 * Updates Book stocks by given properties
+	 * 
+	 * @param bookStockDTOs
+	 * @return BookDTO list that represents updated Books
+	 * @throws EntityNotFoundException can be thrown if the id is not found
+	 */
 	@PutMapping("/updateStock")
-	public List<BookDTO> updateBookStock(@RequestBody List<BookStockDTO> bookStockDTOs) {
+	public List<BookDTO> updateBookStock(@RequestBody List<BookStockDTO> bookStockDTOs) {	// TODO: validation
 		List<Book> books = new ArrayList<>();
 		Book book;
 
 		for (BookStockDTO bookStockDTO : bookStockDTOs) {
 			book = bookService.findById(bookStockDTO.getBookId());
-			book.addStock(bookStockDTO.getStock());
+			book.increaseStock(bookStockDTO.getStock());
 			books.add(book);
 		}
 

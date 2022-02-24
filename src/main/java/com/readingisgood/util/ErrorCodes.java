@@ -7,5 +7,6 @@ public final class ErrorCodes {
 
 	public static final int ENTITY_NOT_FOUND = 101;
 	public static final int DATA_INTEGRITY_ERROR = 102;
+	public static final int STOCK_IS_NOT_ENOUGH = 103;
 
 }

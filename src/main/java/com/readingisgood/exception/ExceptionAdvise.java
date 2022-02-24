@@ -49,4 +49,15 @@ public class ExceptionAdvise {
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(value = StockIsNotEnoughException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public ResponseEntity<ErrorResponse> handleStockIsNotEnoughException(StockIsNotEnoughException ex) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setErrorCode(ErrorCodes.STOCK_IS_NOT_ENOUGH);
+		errorResponse.setErrorMessage(ex.getMessage());
+		errorResponse.setDate(new Date());
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+	}
+
 }

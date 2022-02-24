@@ -31,13 +31,13 @@ public class Order {
 	@ElementCollection
 	private Map<Book, Integer> cart = new HashMap<>();
 
-	private double totalAmount = 0;
+	private double totalAmount = 0.0;
 
     @JsonFormat(pattern="yyyy-MM-dd")
 	private Date date;
 
 	@Enumerated(EnumType.STRING)
-	private OrderStatus status = OrderStatus.PENDING;
+	private OrderStatus status = OrderStatus.PREPARING;
 
 	public Order() {
 		super();
@@ -100,7 +100,7 @@ public class Order {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
-
+	
 	public void addToCart(Book book, int count) {
 		Integer bookCount = cart.get(book);
 
@@ -117,7 +117,7 @@ public class Order {
 		double totalAmountVal = 0;
 		
 		for (Map.Entry<Book, Integer> entry : this.cart.entrySet()) {
-			totalAmount += entry.getKey().getPrice() * entry.getValue();
+			totalAmountVal += entry.getKey().getPrice() * entry.getValue();
 		}
 		
 		this.totalAmount = totalAmountVal;

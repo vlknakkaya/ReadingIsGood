@@ -1,7 +1,7 @@
 package com.readingisgood.model.dto;
 
 import java.sql.Date;
-import java.util.Map;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -9,7 +9,7 @@ public class OrderDTO {
 
 	private long id;
 	private long customerId;
-	private Map<Long, Integer> cart;
+	private List<CartItemDTO> cart;
 	private double totalAmount;
     @JsonFormat(pattern="yyyy-MM-dd")
 	private Date date;
@@ -19,7 +19,7 @@ public class OrderDTO {
 		super();
 	}
 
-	public OrderDTO(long id, long customerId, Map<Long, Integer> cart, double totalAmount, Date date, String status) {
+	public OrderDTO(long id, long customerId, List<CartItemDTO> cart, double totalAmount, Date date, String status) {
 		super();
 		this.id = id;
 		this.customerId = customerId;
@@ -45,11 +45,11 @@ public class OrderDTO {
 		this.customerId = customerId;
 	}
 
-	public Map<Long, Integer> getCart() {
+	public List<CartItemDTO> getCart() {
 		return cart;
 	}
 
-	public void setCart(Map<Long, Integer> cart) {
+	public void setCart(List<CartItemDTO> cart) {
 		this.cart = cart;
 	}
 

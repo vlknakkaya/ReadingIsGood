@@ -1,8 +1,18 @@
 package com.readingisgood.util;
 
+/**
+ * Enum class for Order status.
+ * 
+ * Current status ids and texts:
+ * 0 - preparing
+ * 1 - shipping
+ * 2 - delivered
+ */
 public enum OrderStatus {
 
-	PENDING(0, "pending"), SHIPPING(1, "shipping"), DELIVERED(2, "delivered");
+	PREPARING(0, "preparing"),
+	SHIPPING(1, "shipping"),
+	DELIVERED(2, "delivered");
 
 	private OrderStatus(int id, String statusText) {
 		this.id = id;
@@ -18,6 +28,16 @@ public enum OrderStatus {
 
 	public String getStatusText() {
 		return statusText;
+	}
+
+	public static OrderStatus getStatusById(int id) {
+		for (OrderStatus status : values()) {
+			if (status.getId() == id) {
+				return status;
+			}
+		}
+
+		return PREPARING; // default
 	}
 
 }

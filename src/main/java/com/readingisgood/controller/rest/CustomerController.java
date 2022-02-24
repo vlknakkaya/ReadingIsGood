@@ -31,16 +31,36 @@ public class CustomerController {
 	@Autowired
 	private OrderDTOConverter orderDTOConverter;
 
+	/**
+	 * Returns all customers
+	 * 
+	 * @return CustomerDTO list that represents all Customers
+	 */
 	@GetMapping
 	public List<CustomerDTO> getAllCustomers() {
 		return customerDTOConverter.convertToDTOList(customerService.findAll());
 	}
 
+	/**
+	 * Returns customer that has given id
+	 * 
+	 * @param id Customer id
+	 * @return CustomerDTO that represents founded Customer
+	 * @throws EntityNotFoundException can be thrown if the id is not found
+	 */
 	@GetMapping("/{id}")
 	public CustomerDTO getCustomerById(@PathVariable long id) {
 		return customerDTOConverter.convertToDTO(customerService.findById(id));
 	}
 
+	/**
+	 * Updates customer that has given id with given Customer properties
+	 * 
+	 * @param id Customer id
+	 * @param customerDTO
+	 * @return CustomerDTO that represents updated Customer
+	 * @throws EntityNotFoundException can be thrown if the id is not found
+	 */
 	@PutMapping("/{id}")
 	public CustomerDTO updateCustomer(@PathVariable long id, @RequestBody CustomerDTO customerDTO) {
 		Customer entity = customerService.findById(id);
@@ -57,11 +77,15 @@ public class CustomerController {
 			entity.setAddress(customerDTO.getAddress());
 		}
 
-		// TODO: add orders
-
 		return customerDTOConverter.convertToDTO(customerService.save(entity));
 	}
 
+	/**
+	 * Creates new customer by given customer properties
+	 * 
+	 * @param customerDTO
+	 * @return CustomerDTO that represents created Customer
+	 */
 	@PostMapping
 	public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
 		Customer newEntity = customerDTOConverter.convertToEntity(customerDTO);
@@ -69,11 +93,23 @@ public class CustomerController {
 		return customerDTOConverter.convertToDTO(customerService.save(newEntity));
 	}
 
+	/**
+	 * Removes Customer that has given id
+	 * 
+	 * @param id Customer id
+	 */
 	@DeleteMapping("/{id}")
 	public void removeCustomerById(@PathVariable long id) {
 		customerService.removeById(id);
 	}
 
+	/**
+	 * Returns all orders of the customer that has given id
+	 * 
+	 * @param id Customer id
+	 * @return OrderDTO list that represents all Orders
+	 * @throws EntityNotFoundException can be thrown if the id is not found
+	 */
 	@GetMapping("/{id}/orders")
 	public List<OrderDTO> getOrdersByCustomer(@PathVariable long id) {
 		Customer customer = customerService.findById(id);

@@ -1,13 +1,27 @@
 package com.readingisgood.model.converter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.readingisgood.model.dto.CartItemDTO;
 import com.readingisgood.model.dto.OrderDTO;
+import com.readingisgood.model.entity.Book;
 import com.readingisgood.model.entity.Order;
-import com.readingisgood.util.OrderStatus;
+import com.readingisgood.service.BookService;
+import com.readingisgood.service.CustomerService;
 
 @Component
 public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
+
+	@Autowired
+	private BookService bookService;
+	@Autowired
+	private CustomerService customerService;
 
 	@Override
 	public Order convertToEntity(OrderDTO dto) {
@@ -16,12 +30,13 @@ public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
 		}
 
 		Order entity = new Order();
-		entity.setCustomer(null); // TODO
-		entity.setCart(null); // TODO
-		entity.setTotalAmount(dto.getTotalAmount());
+		entity.setCustomer(customerService.findById(dto.getCustomerId()));
 		entity.setDate(dto.getDate());
-		entity.setStatus(OrderStatus.valueOf(dto.getStatus()));
 
+		Map<Book, Integer> cart = new HashMap<>();
+		dto.getCart().stream().forEach(x -> cart.put(bookService.findById(x.getBookId()), x.getCount()));
+		entity.setCart(cart);
+		
 		return entity;
 	}
 
@@ -32,11 +47,15 @@ public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
 		}
 
 		OrderDTO dto = new OrderDTO();
+		dto.setId(entity.getId());
 		dto.setCustomerId(entity.getCustomer().getId());
-		dto.setCart(null); // TODO
 		dto.setTotalAmount(entity.getTotalAmount());
 		dto.setDate(entity.getDate());
 		dto.setStatus(entity.getStatus().getStatusText());
+
+		List<CartItemDTO> cart = new ArrayList<>();
+		entity.getCart().forEach((k, v) -> cart.add(new CartItemDTO(k.getId(), v)));
+		dto.setCart(cart);
 
 		return dto;
 	}

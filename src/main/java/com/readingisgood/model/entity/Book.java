@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.readingisgood.exception.StockIsNotEnoughException;
+
 @Entity
 public class Book {
 
@@ -62,9 +64,17 @@ public class Book {
 	public void setStock(long stock) {
 		this.stock = stock;
 	}
-	
-	public void addStock(long addedStock) {
-		this.stock += addedStock;
+
+	public synchronized void increaseStock(long count) {
+		this.stock += count;
+	}
+
+	public synchronized void decreaseStock(long count) {
+		if (this.stock < count) {
+			throw new StockIsNotEnoughException(this.id, this.stock, count);
+		} else {
+			this.stock -= count;
+		}
 	}
 
 	@Override

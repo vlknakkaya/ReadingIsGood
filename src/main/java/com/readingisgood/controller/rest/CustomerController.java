@@ -2,10 +2,14 @@ package com.readingisgood.controller.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +22,7 @@ import com.readingisgood.model.converter.OrderDTOConverter;
 import com.readingisgood.model.dto.CustomerDTO;
 import com.readingisgood.model.dto.OrderDTO;
 import com.readingisgood.model.entity.Customer;
+import com.readingisgood.model.validator.CustomerDTOValidator;
 import com.readingisgood.service.CustomerService;
 
 @RestController
@@ -30,7 +35,14 @@ public class CustomerController {
 	private CustomerDTOConverter customerDTOConverter;
 	@Autowired
 	private OrderDTOConverter orderDTOConverter;
+	@Autowired
+	private CustomerDTOValidator customerDTOValidator;
 
+	@InitBinder(value = "customerDTO")
+	void initCustomerDTOValidator(WebDataBinder binder) {
+		binder.setValidator(customerDTOValidator);
+	}
+	
 	/**
 	 * Returns all customers
 	 * 
@@ -62,7 +74,7 @@ public class CustomerController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}")
-	public CustomerDTO updateCustomer(@PathVariable long id, @RequestBody CustomerDTO customerDTO) {
+	public CustomerDTO updateCustomer(@PathVariable long id, @RequestBody @Valid CustomerDTO customerDTO) {
 		Customer entity = customerService.findById(id);
 
 		if (StringUtils.hasText(customerDTO.getEmail())) {
@@ -87,7 +99,7 @@ public class CustomerController {
 	 * @return CustomerDTO that represents created Customer
 	 */
 	@PostMapping
-	public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
+	public CustomerDTO createCustomer(@RequestBody @Valid CustomerDTO customerDTO) {
 		Customer newEntity = customerDTOConverter.convertToEntity(customerDTO);
 
 		return customerDTOConverter.convertToDTO(customerService.save(newEntity));

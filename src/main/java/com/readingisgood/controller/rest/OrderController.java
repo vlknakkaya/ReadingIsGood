@@ -3,10 +3,14 @@ package com.readingisgood.controller.rest;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +25,8 @@ import com.readingisgood.model.dto.CartItemDTO;
 import com.readingisgood.model.dto.OrderDTO;
 import com.readingisgood.model.entity.Book;
 import com.readingisgood.model.entity.Order;
+import com.readingisgood.model.validator.CartItemDTOValidator;
+import com.readingisgood.model.validator.OrderDTOValidator;
 import com.readingisgood.service.BookService;
 import com.readingisgood.service.CustomerService;
 import com.readingisgood.service.OrderService;
@@ -38,7 +44,21 @@ public class OrderController {
 	private CustomerService customerService;
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private OrderDTOValidator orderDTOValidator;
+	@Autowired
+	private CartItemDTOValidator cartItemDTOValidator;
 
+	@InitBinder(value = "orderDTO")
+	void initOrderDTOValidator(WebDataBinder binder) {
+		binder.setValidator(orderDTOValidator);
+	}
+
+	@InitBinder(value = "cartItemDTO")
+	void initCartItemDTOValidator(WebDataBinder binder) {
+		binder.setValidator(cartItemDTOValidator);
+	}
+	
 	/**
 	 * Returns all Orders
 	 * 
@@ -70,7 +90,7 @@ public class OrderController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}")
-	public OrderDTO updateOrder(@PathVariable long id, @RequestBody OrderDTO orderDTO) {
+	public OrderDTO updateOrder(@PathVariable long id, @RequestBody @Valid OrderDTO orderDTO) {
 		Order entity = orderService.findById(id);
 
 		if (StringUtils.hasText(String.valueOf(orderDTO.getCustomerId()))) {
@@ -96,8 +116,8 @@ public class OrderController {
 	 * @throws StockIsNotEnoughException can be thrown if the stock is not enough
 	 */
 	@PostMapping
-	public OrderDTO createOrder(@RequestBody OrderDTO orderDTO) {
-		checkStock(orderDTO.getCart()); // can be handled by a validator??
+	public OrderDTO createOrder(@RequestBody @Valid OrderDTO orderDTO) {
+		checkStock(orderDTO.getCart());
 
 		Order newEntity = orderDTOConverter.convertToEntity(orderDTO);
 
@@ -149,7 +169,7 @@ public class OrderController {
 	 * @throws StockIsNotEnoughException can be thrown if the stock is not enough
 	 */
 	@PutMapping("/{id}/add")
-	public OrderDTO addToCart(@PathVariable long id, @RequestBody List<CartItemDTO> cartItemDTOs) {
+	public OrderDTO addToCart(@PathVariable long id, @RequestBody @Valid List<CartItemDTO> cartItemDTOs) {
 		checkStock(cartItemDTOs);
 
 		Order order = orderService.findById(id);

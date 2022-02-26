@@ -73,8 +73,8 @@ public class JWTUtil {
 	 * @param userDetails
 	 * @return token
 	 */
-	public String generateToken(String username) {
-		return createToken(new HashMap<>(), username);
+	public String generateToken(UserDetails userDetails) {
+		return createToken(new HashMap<>(), userDetails.getUsername());
 	}
 	
 	/**

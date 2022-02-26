@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,12 +32,15 @@ public class Order {
 	@ElementCollection
 	private Map<Book, Integer> cart = new HashMap<>();
 
+	@Column(nullable = false)
 	private double totalAmount = 0.0;
 
     @JsonFormat(pattern="yyyy-MM-dd")
+	@Column(nullable = false)
 	private Date date;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private OrderStatus status = OrderStatus.PREPARING;
 
 	public Order() {

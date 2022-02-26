@@ -15,11 +15,13 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String name;
 
+	@Column(nullable = false)
 	private double price;
 
+	@Column(nullable = false)
 	private long stock;
 
 	public Book() {

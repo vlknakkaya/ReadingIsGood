@@ -160,28 +160,6 @@ public class OrderController {
 	}
 
 	/**
-	 * Add given items to cart of Order that has given id
-	 * 
-	 * @param id           Order id
-	 * @param cartItemDTOs
-	 * @return OrderDTO that represents updated Order
-	 * @throws EntityNotFoundException   can be thrown if the id is not found
-	 * @throws StockIsNotEnoughException can be thrown if the stock is not enough
-	 */
-	@PutMapping("/{id}/add")
-	public OrderDTO addToCart(@PathVariable long id, @RequestBody @Valid List<CartItemDTO> cartItemDTOs) {
-		checkStock(cartItemDTOs);
-
-		Order order = orderService.findById(id);
-
-		for (CartItemDTO cartItemDTO : cartItemDTOs) {
-			order.addToCart(decreaseStock(cartItemDTO.getBookId(), cartItemDTO.getCount()), cartItemDTO.getCount());
-		}
-
-		return orderDTOConverter.convertToDTO(orderService.save(order));
-	}
-
-	/**
 	 * Sets Order status by given status id. For status id please see
 	 * {@link OrderStatus}
 	 * 

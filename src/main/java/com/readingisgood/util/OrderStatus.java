@@ -10,9 +10,9 @@ package com.readingisgood.util;
  */
 public enum OrderStatus {
 
-	PREPARING(0, "preparing"),
-	SHIPPING(1, "shipping"),
-	DELIVERED(2, "delivered");
+	PREPARING(0, "PREPARING"),
+	SHIPPING(1, "SHIPPING"),
+	DELIVERED(2, "DELIVERED");
 
 	private OrderStatus(int id, String statusText) {
 		this.id = id;

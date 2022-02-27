@@ -7,6 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.readingisgood.model.dto.CustomerDTO;
+import com.readingisgood.model.entity.Customer;
 import com.readingisgood.service.CustomerService;
 import com.readingisgood.util.ErrorCodes;
 
@@ -25,14 +26,22 @@ public class CustomerDTOValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		CustomerDTO customerDTO = (CustomerDTO) target;
 
-		if (StringUtils.hasText(customerDTO.getEmail()) && customerDTO.getEmail().trim().length() == 0) {
-			errors.rejectValue("email", ErrorCodes.CANNOT_BE_EMPTY, "Email field can not be empty");
-		}
+		if (StringUtils.hasText(customerDTO.getEmail())) {
+			try {
+				Customer entity = customerService.findByEmail(customerDTO.getEmail());
 
-		if (StringUtils.hasText(customerDTO.getEmail())
-				&& customerService.findByEmail(customerDTO.getEmail()) != null) {
-			errors.rejectValue("email", ErrorCodes.ALREADY_EXIST,
-					"The customer is already exist: " + customerDTO.getEmail());
+				if (entity != null && !customerDTO.getEmail().equals(entity.getEmail())) {
+					errors.rejectValue("email", ErrorCodes.ALREADY_EXIST,
+							"The customer is already exist: " + customerDTO.getEmail());
+				}
+			} catch (Exception e) {
+				// there is no need an action
+			}
+
+			if (!customerDTO.getEmail().contains("@")) {
+				errors.rejectValue("email", ErrorCodes.NEEDED_SPECIAL_CHARACTER,
+						"Email should has '@' character: " + customerDTO.getEmail());
+			}
 		}
 
 		if (StringUtils.hasText(customerDTO.getName()) && customerDTO.getName().trim().length() == 0) {

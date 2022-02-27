@@ -14,6 +14,7 @@ import com.readingisgood.model.entity.Book;
 import com.readingisgood.model.entity.Order;
 import com.readingisgood.service.BookService;
 import com.readingisgood.service.CustomerService;
+import com.readingisgood.util.OrderStatus;
 
 @Component
 public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
@@ -32,6 +33,7 @@ public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
 		Order entity = new Order();
 		entity.setCustomer(customerService.findById(dto.getCustomerId()));
 		entity.setDate(dto.getDate());
+		entity.setStatus(OrderStatus.valueOf(dto.getStatus()));
 
 		Map<Book, Integer> cart = new HashMap<>();
 		dto.getCart().stream().forEach(x -> cart.put(bookService.findById(x.getBookId()), x.getCount()));

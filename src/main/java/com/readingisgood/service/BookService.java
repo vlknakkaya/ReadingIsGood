@@ -24,8 +24,8 @@ public class BookService {
 		return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book", "id", id));
 	}
 
-	public Book findByName(String name) {
-		return bookRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException("Book", "name", name));
+	public List<Book> findByName(String name) {
+		return bookRepository.findByName(name);
 	}
 
 	public List<Book> findByPrice(double price) {

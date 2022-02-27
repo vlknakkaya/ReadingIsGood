@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -73,6 +74,17 @@ public class ExceptionAdvise {
 		errorResponse.setDate(new Date());
 
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
+	}
+
+	@ExceptionHandler(value = BadCredentialsException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setErrorCode(ErrorCodes.BAD_CREDENTIALS);
+		errorResponse.setErrorMessage(ex.getMessage());
+		errorResponse.setDate(new Date());
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
 	}
 
 }

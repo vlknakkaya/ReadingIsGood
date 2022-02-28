@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,7 @@ import com.readingisgood.service.OrderService;
 
 @RestController
 @RequestMapping("/statistics")
+@Validated
 public class StatisticsController {
 
 	@Autowired
@@ -67,7 +71,7 @@ public class StatisticsController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@GetMapping("/{customerId}")
-	public List<MonthlyOrderStatisticsDTO> getOrderStatisticsByCustomer(@PathVariable long customerId) {
+	public List<MonthlyOrderStatisticsDTO> getOrderStatisticsByCustomer(@PathVariable @Min(value = 0, message = "id must not be negative") long customerId) {
 		Customer customer = customerService.findById(customerId);
 		List<MonthlyOrderStatisticsDTO> monthlyOrderStatisticsDTOs = new ArrayList<>();
 		Map<Integer, List<Order>> ordersByMonthMap = generateOrdersByMonthMap(customer.getOrders());

@@ -4,9 +4,11 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +36,7 @@ import com.readingisgood.util.OrderStatus;
 
 @RestController
 @RequestMapping("/order")
+@Validated
 public class OrderController {
 
 	@Autowired
@@ -77,7 +80,7 @@ public class OrderController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@GetMapping("/{id}")
-	public OrderDTO getOrderById(@PathVariable long id) {
+	public OrderDTO getOrderById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
 		return orderDTOConverter.convertToDTO(orderService.findById(id));
 	}
 
@@ -90,7 +93,7 @@ public class OrderController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}")
-	public OrderDTO updateOrder(@PathVariable long id, @RequestBody @Valid OrderDTO orderDTO) {
+	public OrderDTO updateOrder(@PathVariable @Min(value = 0, message = "id must not be negative") long id, @RequestBody @Valid OrderDTO orderDTO) {
 		Order entity = orderService.findById(id);
 
 		if (StringUtils.hasText(String.valueOf(orderDTO.getCustomerId()))) {
@@ -134,7 +137,7 @@ public class OrderController {
 	 * @param id Order id
 	 */
 	@DeleteMapping("/{id}")
-	public void removeOrderById(@PathVariable long id) {
+	public void removeOrderById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
 		orderService.removeById(id);
 	}
 
@@ -169,7 +172,7 @@ public class OrderController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}/status/{statusId}")
-	public OrderDTO setOrderStatus(@PathVariable long id, @PathVariable int statusId) {
+	public OrderDTO setOrderStatus(@PathVariable @Min(value = 0, message = "id must not be negative") long id, @PathVariable int statusId) {
 		Order order = orderService.findById(id);
 		order.setStatus(OrderStatus.getStatusById(statusId));
 

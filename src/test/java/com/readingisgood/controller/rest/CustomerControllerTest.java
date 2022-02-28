@@ -167,7 +167,7 @@ class CustomerControllerTest {
 	}
 	
 	/**
-	 * Tests CustomerController.getOrdersByCustomer(long) method with valid id
+	 * Tests CustomerController.getOrdersByCustomer(long, null, null) method with valid id
 	 * 
 	 * @throws Exception
 	 */
@@ -186,7 +186,28 @@ class CustomerControllerTest {
 	}
 	
 	/**
-	 * Tests CustomerController.getOrdersByCustomer(long) method with invalid id
+	 * Tests CustomerController.getOrdersByCustomer(long, Integer, Integer) method with valid id
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void testGetOrdersByValidCustomerWithPage() throws Exception {
+		List<Customer> entities = customerService.findAll();
+		if (!entities.isEmpty()) {
+			Customer entity = entities.get(0);
+			
+			this.mockMvc.perform(get(PATH + "/" + entity.getId() + "/orders")
+					.param("page", "1")
+					.param("size", "2"))
+					.andExpect(status().isOk())
+					.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+		}
+		
+		entities = null;
+	}
+	
+	/**
+	 * Tests CustomerController.getOrdersByCustomer(long, null, null) method with invalid id
 	 * 
 	 * @throws Exception
 	 */
@@ -195,9 +216,9 @@ class CustomerControllerTest {
 		long id = Long.MAX_VALUE;
 
 		this.mockMvc.perform(get(PATH + "/" + id + "/orders"))
-				.andExpect(status().is(HttpStatus.NOT_FOUND.value()))
+				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.errorCode").value(ErrorCodes.ENTITY_NOT_FOUND));
+				.andExpect(jsonPath("$").isEmpty());
 	}
 
 }

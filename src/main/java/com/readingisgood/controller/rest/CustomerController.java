@@ -3,9 +3,11 @@ package com.readingisgood.controller.rest;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.readingisgood.model.converter.CustomerDTOConverter;
@@ -24,13 +27,17 @@ import com.readingisgood.model.dto.OrderDTO;
 import com.readingisgood.model.entity.Customer;
 import com.readingisgood.model.validator.CustomerDTOValidator;
 import com.readingisgood.service.CustomerService;
+import com.readingisgood.service.OrderService;
 
 @RestController
 @RequestMapping("/customer")
+@Validated
 public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private OrderService orderService;
 	@Autowired
 	private CustomerDTOConverter customerDTOConverter;
 	@Autowired
@@ -61,7 +68,7 @@ public class CustomerController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@GetMapping("/{id}")
-	public CustomerDTO getCustomerById(@PathVariable long id) {
+	public CustomerDTO getCustomerById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
 		return customerDTOConverter.convertToDTO(customerService.findById(id));
 	}
 
@@ -74,7 +81,7 @@ public class CustomerController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}")
-	public CustomerDTO updateCustomer(@PathVariable long id, @RequestBody @Valid CustomerDTO customerDTO) {
+	public CustomerDTO updateCustomer(@PathVariable @Min(value = 0, message = "id must not be negative") long id, @RequestBody @Valid CustomerDTO customerDTO) {
 		Customer entity = customerService.findById(id);
 
 		if (StringUtils.hasText(customerDTO.getEmail())) {
@@ -111,22 +118,28 @@ public class CustomerController {
 	 * @param id Customer id
 	 */
 	@DeleteMapping("/{id}")
-	public void removeCustomerById(@PathVariable long id) {
+	public void removeCustomerById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
 		customerService.removeById(id);
 	}
 
 	/**
-	 * Returns all orders of the customer that has given id
+	 * Returns all orders of the customer that has given id.
+	 * Also Pagination can be used
 	 * 
-	 * @param id Customer id
+	 * @param customerId Customer ID
+	 * @param page zero-based page index
+	 * @param size the size of the page to be returned
 	 * @return OrderDTO list that represents all Orders
-	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
-	@GetMapping("/{id}/orders")
-	public List<OrderDTO> getOrdersByCustomer(@PathVariable long id) {
-		Customer customer = customerService.findById(id);
-
-		return orderDTOConverter.convertToDTOList(customer.getOrders());
+	@GetMapping("/{customerId}/orders")
+	public List<OrderDTO> getOrdersByCustomerId(@PathVariable long customerId,
+									@RequestParam(name = "page", required = false) @Min(value = 0, message = "page value must not be negative") Integer page,
+									@RequestParam(name = "size", required = false) @Min(value = 1, message = "size value must be greater than 0") Integer size) {
+		if (page != null && size != null) {
+			return orderDTOConverter.convertToDTOList(orderService.findByCustomerId(customerId, page, size));
+		} else {
+			return orderDTOConverter.convertToDTOList(orderService.findByCustomerId(customerId));
+		}
 	}
 
 }

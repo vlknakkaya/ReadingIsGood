@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ import com.readingisgood.service.BookService;
 
 @RestController
 @RequestMapping("/book")
+@Validated
 public class BookController {
 
 	@Autowired
@@ -67,7 +70,7 @@ public class BookController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@GetMapping("/{id}")
-	public BookDTO getBookById(@PathVariable long id) {
+	public BookDTO getBookById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
 		return bookDTOConverter.convertToDTO(bookService.findById(id));
 	}
 
@@ -80,7 +83,7 @@ public class BookController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}")
-	public BookDTO updateBook(@PathVariable long id, @RequestBody @Valid BookDTO bookDTO) {
+	public BookDTO updateBook(@PathVariable @Min(value = 0, message = "id must not be negative") long id, @RequestBody @Valid BookDTO bookDTO) {
 		Book entity = bookService.findById(id);
 
 		if (StringUtils.hasText(bookDTO.getName())) {
@@ -117,7 +120,7 @@ public class BookController {
 	 * @param id Book id
 	 */
 	@DeleteMapping("/{id}")
-	public void removeBookById(@PathVariable long id) {
+	public void removeBookById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
 		bookService.removeById(id);
 	}
 

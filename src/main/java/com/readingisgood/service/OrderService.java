@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.readingisgood.exception.EntityNotFoundException;
@@ -28,6 +29,10 @@ public class OrderService {
 
 	public List<Order> findByCustomerId(long customerId) {
 		return orderRepository.findByCustomerId(customerId);
+	}
+
+	public List<Order> findByCustomerId(long customerId, int page, int size) {
+		return orderRepository.findByCustomerId(customerId, PageRequest.of(page, size)).toList();
 	}
 
 	public List<Order> findByTotalAmount(double totalAmount) {

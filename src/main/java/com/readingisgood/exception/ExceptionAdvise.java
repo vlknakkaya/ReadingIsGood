@@ -4,6 +4,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +70,7 @@ public class ExceptionAdvise {
 	@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
 	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 		ErrorResponse errorResponse = new ErrorResponse();
-		errorResponse.setErrorCode(ErrorCodes.STOCK_IS_NOT_ENOUGH);
+		errorResponse.setErrorCode(ErrorCodes.VALIDATION_ERROR);
 		errorResponse.setErrorMessage("[Validation Error] " + ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
 				.collect(Collectors.joining("; ")));
 		errorResponse.setDate(new Date());
@@ -85,6 +87,17 @@ public class ExceptionAdvise {
 		errorResponse.setDate(new Date());
 
 		return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(value = ConstraintViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setErrorCode(ErrorCodes.VALIDATION_ERROR);
+		errorResponse.setErrorMessage("[Validation Error] " + ex.getMessage());
+		errorResponse.setDate(new Date());
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }

@@ -23,16 +23,12 @@ public class OrderDTOValidator implements Validator {
 		
 		if (!StringUtils.hasText(String.valueOf(orderDTO.getCustomerId()))) {
 			errors.rejectValue("customerId", ErrorCodes.MUST_BE_GIVEN, "Customer ID must be given");
-		} else if (orderDTO.getCustomerId() < 0) {
-			errors.rejectValue("customerId", ErrorCodes.OUT_OF_LIMIT, "Customer ID can not be lower than 0");
+		} else if (orderDTO.getCustomerId() < 1) {
+			errors.rejectValue("customerId", ErrorCodes.OUT_OF_LIMIT, "Customer ID can not be lower than 1");
 		}
 		
-		if (ObjectUtils.isEmpty(orderDTO.getCart())) {
+		if (ObjectUtils.isArray(orderDTO.getCart()) && !ObjectUtils.isEmpty(orderDTO.getCart())) {
 			errors.rejectValue("cart", ErrorCodes.MUST_BE_GIVEN, "Cart must be given");
-		}
-		
-		if (!StringUtils.hasText(String.valueOf(orderDTO.getDate()))) {
-			errors.rejectValue("date", ErrorCodes.MUST_BE_GIVEN, "Date must be given");
 		}
 		
 	}

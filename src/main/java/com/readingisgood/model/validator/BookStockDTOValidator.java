@@ -22,14 +22,14 @@ public class BookStockDTOValidator implements Validator {
 
 		if (!StringUtils.hasText(String.valueOf(bookStockDTO.getBookId()))) {
 			errors.rejectValue("bookId", ErrorCodes.MUST_BE_GIVEN, "Book ID must be given");
-		} else if (bookStockDTO.getBookId() < 0) {
-			errors.rejectValue("bookId", ErrorCodes.OUT_OF_LIMIT, "Book ID can not be lower than 0");
+		} else if (bookStockDTO.getBookId() < 1) {
+			errors.rejectValue("bookId", ErrorCodes.OUT_OF_LIMIT, "Book ID can not be lower than 1");
 		}
 
 		if (!StringUtils.hasText(String.valueOf(bookStockDTO.getStock()))) {
 			errors.rejectValue("stock", ErrorCodes.MUST_BE_GIVEN, "Stock must be given");
-		} else if (bookStockDTO.getStock() < 0) {
-			errors.rejectValue("stock", ErrorCodes.OUT_OF_LIMIT, "Stock can not be lower than 0");
+		} else if (bookStockDTO.getStock() < 1) {
+			errors.rejectValue("stock", ErrorCodes.OUT_OF_LIMIT, "Stock can not be lower than 1");
 		}
 	}
 

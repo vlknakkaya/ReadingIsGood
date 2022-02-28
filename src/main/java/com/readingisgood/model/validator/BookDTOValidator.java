@@ -24,12 +24,12 @@ public class BookDTOValidator implements Validator {
 			errors.rejectValue("name", ErrorCodes.CANNOT_BE_EMPTY, "Name field can not be empty");
 		}
 
-		if (StringUtils.hasText(String.valueOf(bookDTO.getPrice())) && bookDTO.getPrice() < 0.0) {
-			errors.rejectValue("price", ErrorCodes.OUT_OF_LIMIT, "Price can not be lower than 0");
+		if (StringUtils.hasText(String.valueOf(bookDTO.getPrice())) && bookDTO.getPrice() < 1.0) {
+			errors.rejectValue("price", ErrorCodes.OUT_OF_LIMIT, "Price can not be lower than 1");
 		}
 
-		if (StringUtils.hasText(String.valueOf(bookDTO.getStock())) && bookDTO.getStock() < 0) {
-			errors.rejectValue("stock", ErrorCodes.OUT_OF_LIMIT, "Stock can not be lower than 0");
+		if (StringUtils.hasText(String.valueOf(bookDTO.getStock())) && bookDTO.getStock() < 1) {
+			errors.rejectValue("stock", ErrorCodes.OUT_OF_LIMIT, "Stock can not be lower than 1");
 		}
 	}
 

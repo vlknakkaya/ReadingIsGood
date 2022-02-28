@@ -71,7 +71,7 @@ public class StatisticsController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@GetMapping("/{customerId}")
-	public List<MonthlyOrderStatisticsDTO> getOrderStatisticsByCustomer(@PathVariable @Min(value = 0, message = "id must not be negative") long customerId) {
+	public List<MonthlyOrderStatisticsDTO> getOrderStatisticsByCustomer(@PathVariable @Min(value = 1, message = "id must be greater than 0") long customerId) {
 		Customer customer = customerService.findById(customerId);
 		List<MonthlyOrderStatisticsDTO> monthlyOrderStatisticsDTOs = new ArrayList<>();
 		Map<Integer, List<Order>> ordersByMonthMap = generateOrdersByMonthMap(customer.getOrders());

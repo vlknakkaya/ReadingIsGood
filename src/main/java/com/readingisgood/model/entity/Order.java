@@ -105,18 +105,6 @@ public class Order {
 		this.status = status;
 	}
 	
-	public void addToCart(Book book, int count) {
-		Integer bookCount = cart.get(book);
-
-		if (bookCount != null) {
-			cart.put(book, bookCount + count);
-		} else {
-			cart.put(book, count);
-		}
-		
-		calculateTotalAmount();
-	}
-	
 	private void calculateTotalAmount() {
 		double totalAmountVal = 0;
 		

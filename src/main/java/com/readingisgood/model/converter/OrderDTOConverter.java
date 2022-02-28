@@ -1,5 +1,6 @@
 package com.readingisgood.model.converter;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +33,8 @@ public class OrderDTOConverter implements DTOConverter<Order, OrderDTO> {
 
 		Order entity = new Order();
 		entity.setCustomer(customerService.findById(dto.getCustomerId()));
-		entity.setDate(dto.getDate());
-		entity.setStatus(OrderStatus.valueOf(dto.getStatus()));
+		entity.setDate(dto.getDate() == null ? new Date(System.currentTimeMillis()) : dto.getDate());
+		entity.setStatus(dto.getStatus() == null ? OrderStatus.PREPARING : OrderStatus.valueOf(dto.getStatus()));
 
 		Map<Book, Integer> cart = new HashMap<>();
 		dto.getCart().stream().forEach(x -> cart.put(bookService.findById(x.getBookId()), x.getCount()));

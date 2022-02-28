@@ -68,7 +68,7 @@ public class CustomerController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@GetMapping("/{id}")
-	public CustomerDTO getCustomerById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
+	public CustomerDTO getCustomerById(@PathVariable @Min(value = 1, message = "id must be greater than 0") long id) {
 		return customerDTOConverter.convertToDTO(customerService.findById(id));
 	}
 
@@ -81,7 +81,7 @@ public class CustomerController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}")
-	public CustomerDTO updateCustomer(@PathVariable @Min(value = 0, message = "id must not be negative") long id, @RequestBody @Valid CustomerDTO customerDTO) {
+	public CustomerDTO updateCustomer(@PathVariable @Min(value = 1, message = "id must be greater than 0") long id, @RequestBody @Valid CustomerDTO customerDTO) {
 		Customer entity = customerService.findById(id);
 
 		if (StringUtils.hasText(customerDTO.getEmail())) {
@@ -118,7 +118,7 @@ public class CustomerController {
 	 * @param id Customer id
 	 */
 	@DeleteMapping("/{id}")
-	public void removeCustomerById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
+	public void removeCustomerById(@PathVariable @Min(value = 1, message = "id must be greater than 0") long id) {
 		customerService.removeById(id);
 	}
 

@@ -22,14 +22,14 @@ public class CartItemDTOValidator implements Validator {
 
 		if (!StringUtils.hasText(String.valueOf(cartItemDTO.getBookId()))) {
 			errors.rejectValue("bookId", ErrorCodes.MUST_BE_GIVEN, "Book ID must be given");
-		} else if (cartItemDTO.getBookId() < 0) {
-			errors.rejectValue("bookId", ErrorCodes.OUT_OF_LIMIT, "Book ID can not be lower than 0");
+		} else if (cartItemDTO.getBookId() < 1) {
+			errors.rejectValue("bookId", ErrorCodes.OUT_OF_LIMIT, "Book ID can not be lower than 1");
 		}
 
 		if (!StringUtils.hasText(String.valueOf(cartItemDTO.getCount()))) {
 			errors.rejectValue("count", ErrorCodes.MUST_BE_GIVEN, "Count must be given");
-		} else if (cartItemDTO.getCount() < 0) {
-			errors.rejectValue("count", ErrorCodes.OUT_OF_LIMIT, "Count can not be lower than 0");
+		} else if (cartItemDTO.getCount() < 1) {
+			errors.rejectValue("count", ErrorCodes.OUT_OF_LIMIT, "Count can not be lower than 1");
 		}
 	}
 

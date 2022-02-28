@@ -70,7 +70,7 @@ public class BookController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@GetMapping("/{id}")
-	public BookDTO getBookById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
+	public BookDTO getBookById(@PathVariable @Min(value = 1, message = "id must be greater than 0") long id) {
 		return bookDTOConverter.convertToDTO(bookService.findById(id));
 	}
 
@@ -83,7 +83,7 @@ public class BookController {
 	 * @throws EntityNotFoundException can be thrown if the id is not found
 	 */
 	@PutMapping("/{id}")
-	public BookDTO updateBook(@PathVariable @Min(value = 0, message = "id must not be negative") long id, @RequestBody @Valid BookDTO bookDTO) {
+	public BookDTO updateBook(@PathVariable @Min(value = 1, message = "id must be greater than 0") long id, @RequestBody @Valid BookDTO bookDTO) {
 		Book entity = bookService.findById(id);
 
 		if (StringUtils.hasText(bookDTO.getName())) {
@@ -120,7 +120,7 @@ public class BookController {
 	 * @param id Book id
 	 */
 	@DeleteMapping("/{id}")
-	public void removeBookById(@PathVariable @Min(value = 0, message = "id must not be negative") long id) {
+	public void removeBookById(@PathVariable @Min(value = 1, message = "id must be greater than 0") long id) {
 		bookService.removeById(id);
 	}
 

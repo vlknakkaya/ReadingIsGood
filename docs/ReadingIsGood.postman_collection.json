@@ -1,0 +1,674 @@
+{
+	"info": {
+		"_postman_id": "81ef8221-512b-4ad7-b969-4c5395aed444",
+		"name": "ReadingIsGood",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AuthController",
+			"item": [
+				{
+					"name": "createToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/auth",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BookController",
+			"item": [
+				{
+					"name": "getAllBooks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/book",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBookById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/book/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBook",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"price\": 0.0,\r\n    \"stock\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/book/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createBook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"price\": 0.0,\r\n    \"stock\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/book",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeBookById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/book/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBookStock",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"bookId\": 0,\r\n        \"stock\": 0\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/book/updateStock",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"book",
+								"updateStock"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CustomerController",
+			"item": [
+				{
+					"name": "getAllCustomers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/customer",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCustomerById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/customer/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"customer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCustomer",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"\",\r\n  \"name\": \"\",\r\n  \"address\": \"\",\r\n  \"orders\": [\r\n    {\r\n      \"id\": 0,\r\n      \"customerId\": 0,\r\n      \"cart\": [\r\n        {\r\n          \"bookId\": 0,\r\n          \"count\": 0\r\n        }\r\n      ],\r\n      \"totalAmount\": 0,\r\n      \"date\": \"\",\r\n      \"status\": \"\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/customer/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"customer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCustomer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"\",\r\n  \"name\": \"\",\r\n  \"address\": \"\",\r\n  \"orders\": [\r\n    {\r\n      \"id\": 0,\r\n      \"customerId\": 0,\r\n      \"cart\": [\r\n        {\r\n          \"bookId\": 0,\r\n          \"count\": 0\r\n        }\r\n      ],\r\n      \"totalAmount\": 0,\r\n      \"date\": \"\",\r\n      \"status\": \"\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/customer",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeCustomerById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/customer/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"customer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrdersByCustomerId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/customer/1/orders?page=0&size=2",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"customer",
+								"1",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "optional"
+								},
+								{
+									"key": "size",
+									"value": "2",
+									"description": "optional"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OrderController",
+			"item": [
+				{
+					"name": "getAllOrders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/order",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrderById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/order/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateOrder",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\": 0,\r\n  \"cart\": [\r\n    {\r\n      \"bookId\": 0,\r\n      \"count\": 0\r\n    }\r\n  ],\r\n  \"date\": \"\",\r\n  \"status\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/order/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createOrder",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\": 0,\r\n  \"cart\": [\r\n    {\r\n      \"bookId\": 0,\r\n      \"count\": 0\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/order",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeOrderById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/order/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrdersByDateBetween",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImV4cCI6MTY0NjA2Nzg0NiwiaWF0IjoxNjQ2MDY2OTQ2fQ.ixvgnP9DuaVgEEVNcgT5S0JF3eTvXwliqbt2PqGzABo",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/order/date?date=2022-02-25&start=2022-02-25&end=2022-02-25",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"order",
+								"date"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2022-02-25",
+									"description": "optional"
+								},
+								{
+									"key": "start",
+									"value": "2022-02-25",
+									"description": "optional, default=1970-01-01"
+								},
+								{
+									"key": "end",
+									"value": "2022-02-25",
+									"description": "optional, default=3000-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setOrderStatus",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/order/1/status/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"order",
+								"1",
+								"status",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StatisticsController",
+			"item": [
+				{
+					"name": "getAllOrderStatistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/statistics",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrderStatisticsByCustomer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{address}}/statistics/1",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"statistics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

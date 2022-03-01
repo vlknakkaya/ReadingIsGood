@@ -552,12 +552,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImV4cCI6MTY0NjA2Nzg0NiwiaWF0IjoxNjQ2MDY2OTQ2fQ.ixvgnP9DuaVgEEVNcgT5S0JF3eTvXwliqbt2PqGzABo",
+								"value": "Bearer ",
 								"type": "default"
 							}
 						],
 						"url": {
-							"raw": "http://{{address}}/order/date?date=2022-02-25&start=2022-02-25&end=2022-02-25",
+							"raw": "http://{{address}}/order/date",
 							"protocol": "http",
 							"host": [
 								"{{address}}"
@@ -570,17 +570,20 @@
 								{
 									"key": "date",
 									"value": "2022-02-25",
-									"description": "optional"
+									"description": "optional",
+									"disabled": true
 								},
 								{
 									"key": "start",
 									"value": "2022-02-25",
-									"description": "optional, default=1970-01-01"
+									"description": "optional, default=1970-01-01",
+									"disabled": true
 								},
 								{
 									"key": "end",
 									"value": "2022-02-25",
-									"description": "optional, default=3000-01-01"
+									"description": "optional, default=3000-01-01",
+									"disabled": true
 								}
 							]
 						}

@@ -44,7 +44,7 @@ After successful start of the application, you can access the OpenAPI UI on:
 ### Prerequisites
 - STS must be installed, [if not](https://spring.io/tools)
 - MySQL database is a must for running the application
-  - I used XAMPP because of it includes MariaDB and manageable from browser (it makes somethings easier :slightly_smiling_face:)
+  - I used [XAMPP](https://www.apachefriends.org/tr/index.html) because of it includes MariaDB and manageable from browser (it makes somethings easier :slightly_smiling_face:)
   - You have to create `reading` database on
 
 Clone this repository to your local:

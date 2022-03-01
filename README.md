@@ -7,7 +7,17 @@ ReadingIsGood is a REST API that provides you can create and manage customers, b
 
 In this project, **Spring Boot**, **Spring Data JPA** with **MySQL** and **Spring Security** is used. Also it has **OpenAPI Specification** for API documentation and **Docker** to containerize.
 
-## Table of Contents
+## Used Technologies
+- Java 11
+- Spring Boot
+- Spring Data JPA
+- Spring Security
+- MySQL
+- Docker
+- JWT (JSON Web Token)
+- OpenAPI (Swagger)
+- Postman
+- Git
 
 ## Installation and Run (Docker)
 ### Prerequisites
@@ -47,5 +57,18 @@ File -> Import -> Gradle -> Existing Gradle Project
 ```
 Build it from Gradle Tasks (it takes time based on dependencies) and Start!
 
-## Usage
-You can use the API using **Postman** with the collection or it's OpenAPI UI.
+## API Usage
+You can use the API using **Postman** with the [collection](docs/ReadingIsGood.postman_collection.json) or it's OpenAPI UI.
+
+Because of API has `authentication`, you need to create token to use it. You can create your token by giving credentials to `/auth`:
+> http://localhost:8080/auth
+
+> NOTE: Application has 3 in-memory users. You can use one of them to create token and use the API.
+> | username  | password |
+> | ----------| -------- |
+> |   user1   |   1111   |
+> |   user2   |   2222   |
+> |   user3   |   3333   |
+
+After creating token, you can use it by giving to `Header` with `Authorization` key and `Bearer ` (include whitespace) prefix.
+
